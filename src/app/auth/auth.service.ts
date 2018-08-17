@@ -37,7 +37,7 @@ export class AuthService {
     this.http
       .post(BACKEND_URL + "signup", authData)
       .subscribe((responseData) => {
-        console.log(responseData);
+        this.router.navigate(['/']);
       });
   };
 
@@ -59,7 +59,7 @@ export class AuthService {
           this.saveAuthData(token, expirationDate);
           console.log(expirationDate)
           this.router.navigate(['/']);
-        }
+        } 
       });
   };
 
