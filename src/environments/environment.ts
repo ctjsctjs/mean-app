@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:3000/api"
+  apiUrl: "http://localhost:3000/api",
+  jwtToken: "lean_mean_fighting_machine"
 };
 
 /*
