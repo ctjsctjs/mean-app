@@ -8,7 +8,8 @@ const router = express.Router();
 router.post("", checkAuth, (req, res, next) => {
     const post = new Post({
         title: req.body.title,
-        content: req.body.content
+        content: req.body.content,
+        creator: req.userData.userId
     });
     post.save().then(result => {
         res.status(201).json({
@@ -25,12 +26,11 @@ router.put("/:id", checkAuth, (req, res, next) => {
         content: req.body.content
     });
     Post.updateOne({ _id: req.params.id }, post).then(result => {
-        console.log(result);
         res.status(200).json({ message: "update success" });
     });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkAuth,  (req, res, next) => {
     Post.findById(req.params.id).then(post => {
         if (post) {
             res.status(200).json(post);
@@ -41,8 +41,12 @@ router.get('/:id', (req, res, next) => {
 });
 
 
-router.get('', (req, res, next) => {
-    Post.find().then(documents => {
+router.get('', checkAuth, (req, res, next) => {
+
+    const userId =  req.userData.userId;
+
+    Post.find({ creator: userId }).then(documents => {
+        console.log(documents);
         res.status(200).json({
             message: 'Posts fetch success',
             posts: documents

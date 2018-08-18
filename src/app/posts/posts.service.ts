@@ -22,16 +22,19 @@ export class PostsService {
       .get<{ message: string, posts: any }>(
         BACKEND_URL
       )
-      .pipe(map((postData) => {
-        return postData.posts.map(post => {
-          return {
-            title: post.title,
-            content: post.content,
-            id: post._id
-          }
-        });
-      }))
+      .pipe(
+        map((postData) => {
+          return postData.posts.map(post => {
+            return {
+              title: post.title,
+              content: post.content,
+              id: post._id,
+              creator: post.creator
+            }
+          });
+        }))
       .subscribe((transformedPosts) => {
+        console.log(transformedPosts);
         this.posts = transformedPosts;
         this.postsUpdated.next([...this.posts]);
       });

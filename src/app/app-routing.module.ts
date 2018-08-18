@@ -5,9 +5,12 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { Authguard } from './auth/auth.guard';
+import { HomeRedirect } from './home/home.redirect';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-    { path: '', component: PostListComponent },
+    { path: '', component: HomeComponent, canActivate: [HomeRedirect] },
+    { path: 'dashboard', component: PostListComponent, canActivate: [Authguard] },
     { path: 'create', component: PostCreateComponent, canActivate: [Authguard] },
     { path: 'edit/:postId', component: PostCreateComponent, canActivate: [Authguard] },
     { path: 'login', component: LoginComponent },
@@ -17,6 +20,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-    providers: [Authguard]
+    providers: [Authguard, HomeRedirect]
 })
 export class AppRoutingModule {}
